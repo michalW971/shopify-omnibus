@@ -1,0 +1,30 @@
+name: Update Omnibus Prices
+
+on:
+  schedule:
+    - cron: "0 3 * * *"  # codziennie o 3:00 UTC (czyli 5:00 w PL czasie)
+  workflow_dispatch:      # możliwość ręcznego odpalenia z GitHuba
+
+jobs:
+  update-prices:
+    runs-on: ubuntu-latest
+
+    env:
+      SHOPIFY_STORE: ${{ secrets.SHOPIFY_STORE }}
+      SHOPIFY_API_VERSION: ${{ secrets.SHOPIFY_API_VERSION }}
+      SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run Omnibus price tracker
+        run: python track_prices.py
