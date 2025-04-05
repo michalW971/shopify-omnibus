@@ -2,8 +2,9 @@ name: Update Omnibus Prices
 
 on:
   schedule:
-    - cron: "0 3 * * *"
+    - cron: "*/5 * * * *"  # co 5 minut
   workflow_dispatch:
+
 
 jobs:
   update-prices:
